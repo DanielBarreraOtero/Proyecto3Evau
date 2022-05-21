@@ -66,8 +66,10 @@ public class FichaOficina extends JFrame {
 		textCódigo = new JTextField();
 		textCódigo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textCódigo.setBounds(108, 78, 119, 20);
-		panelFicha.add(textCódigo);
 		textCódigo.setColumns(10);
+		textCódigo.addKeyListener(handler);
+		panelFicha.add(textCódigo);
+		
 
 		JLabel lblProvincia = new JLabel("Provincia:");
 		lblProvincia.setFont(new Font("Tahoma", Font.BOLD, 14));

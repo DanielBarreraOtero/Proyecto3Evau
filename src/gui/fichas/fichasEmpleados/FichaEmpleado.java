@@ -14,6 +14,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
@@ -34,6 +35,11 @@ public class FichaEmpleado extends JFrame {
 	public JButton btnCrear;
 	private HandlerFichaEmpleado handler;
 	public JLabel lblDniInvalid;
+	public JDateChooser dtChFechNac;
+	public JDateChooser dtChFechAlt;
+	public JCheckBox chckbxDespedido;
+	public JDateChooser dtChFechBaj;
+	public JButton btnBusquedaOfi;
 
 
 	/**
@@ -126,7 +132,7 @@ public class FichaEmpleado extends JFrame {
 		panelFicha.add(textOficina);
 		textOficina.setColumns(10);
 		
-		JButton btnBusquedaOfi = new JButton("");
+		btnBusquedaOfi = new JButton("");
 		btnBusquedaOfi.setActionCommand("BUSQUEDAOFI");
 		btnBusquedaOfi.setIcon(new ImageIcon(FichaEmpleado.class.getResource("/imgs/icons/zoom.png")));
 		btnBusquedaOfi.setBounds(217, 114, 24, 19);
@@ -136,7 +142,7 @@ public class FichaEmpleado extends JFrame {
 		lblFechNac.setBounds(20, 87, 103, 14);
 		panelFicha.add(lblFechNac);
 		
-		JDateChooser dtChFechNac = new JDateChooser("dd/MM/yyyy","##/##/####",'-');
+		dtChFechNac = new JDateChooser("dd/MM/yyyy","##/##/####",'-');
 		dtChFechNac.setBounds(131, 86, 107, 20);
 		dtChFechNac.getJCalendar().setTodayButtonText("Hoy");
 		dtChFechNac.getJCalendar().setTodayButtonVisible(true);
@@ -152,18 +158,18 @@ public class FichaEmpleado extends JFrame {
 		lblFechAlt.setBounds(38, 162, 67, 14);
 		panelFicha.add(lblFechAlt);
 		
-		JDateChooser dtChFechAlt = new JDateChooser("dd/MM/yyyy", "##/##/####", '-');
+		dtChFechAlt = new JDateChooser("dd/MM/yyyy", "##/##/####", '-');
 		dtChFechAlt.setBounds(110, 160, 107, 20);
 		dtChFechAlt.getJCalendar().setTodayButtonText("Hoy");
 		dtChFechAlt.getJCalendar().setTodayButtonVisible(true);
 		dtChFechAlt.getJCalendar().setWeekOfYearVisible(false);
 		panelFicha.add(dtChFechAlt);
 		
-		JLabel lblFechBaj = new JLabel("Fecha Alta:");
+		JLabel lblFechBaj = new JLabel("Fecha Baja:");
 		lblFechBaj.setBounds(288, 162, 67, 14);
 		panelFicha.add(lblFechBaj);
 		
-		JDateChooser dtChFechBaj = new JDateChooser("dd/MM/yyyy", "##/##/####", '-');
+		dtChFechBaj = new JDateChooser("dd/MM/yyyy", "##/##/####", '-');
 		dtChFechBaj.setBounds(393, 160, 107, 20);
 		dtChFechBaj.getJCalendar().setTodayButtonText("Hoy");
 		dtChFechBaj.getJCalendar().setTodayButtonVisible(true);
@@ -171,13 +177,14 @@ public class FichaEmpleado extends JFrame {
 		dtChFechBaj.setEnabled(false);
 		panelFicha.add(dtChFechBaj);
 		
-		JCheckBox chckbxDespedido = new JCheckBox("");
+		chckbxDespedido = new JCheckBox("");
+		chckbxDespedido.setActionCommand("DESPEDIDO");
 		chckbxDespedido.addActionListener(handler);
 		chckbxDespedido.setBackground(Color.LIGHT_GRAY);
 		chckbxDespedido.setBounds(358, 158, 23, 23);
 		panelFicha.add(chckbxDespedido);
 		
-		
+		MFichaEmpleado.deshabilitaFicha(this);
 //		PANEL INFERIOR
 		
 		JPanel panelInferior = new JPanel();

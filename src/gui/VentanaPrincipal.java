@@ -8,7 +8,8 @@ import javax.swing.border.EmptyBorder;
 
 import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
-import gui.listados.listadoOficinas.ListadoOficinas;
+import gui.listados.Listado;
+import gui.listados.TipoList;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -74,7 +75,7 @@ public class VentanaPrincipal extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				ListadoOficinas.LanzarListado();
+				Listado.LanzarListado(TipoList.OFICINAS);
 			}
 		});
 		mnListados.add(mntmListadoOficinas);

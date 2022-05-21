@@ -5,7 +5,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import metodos.Metodos;
+import helpers.Helpers;
+import repositorios.EmpleadoBD;
+import repositorios.OficinaBD;
+
 
 public class HandlerFichaEmpleado implements ActionListener, KeyListener{
 	
@@ -25,6 +28,43 @@ public class HandlerFichaEmpleado implements ActionListener, KeyListener{
 			
 			break;
 		}
+		case "DESPEDIDO": {
+			MFichaEmpleado.estadoFechaBaj(padre);
+			break;
+		}
+		case "CREAR": {
+//			Comprobamos que los datos sean correctos
+			boolean condicion = OficinaBD.OficinaExiste(padre.textOficina.getText()) && padre.dtChFechNac.getDate() != null && padre.dtChFechAlt.getDate() != null;
+			if (condicion) {
+				Helpers.AñadirEmpleado(padre);
+				MFichaEmpleado.estadoBotones(padre);
+			} else {
+//				TODO JDIALOG CON ERROR
+			}	
+			break;
+		}
+		case "MODIFICAR": {
+//			Comprobamos que los datos sean correctos
+			boolean condicion = OficinaBD.OficinaExiste(padre.textOficina.getText()) && padre.dtChFechNac.getDate() != null && padre.dtChFechAlt.getDate() != null;
+			if (condicion) {
+				Helpers.ModificaEmpelado(padre);
+			} else {
+//				TODO JDIALOG CON ERROR
+			}
+			break;
+		}
+		case "BORRAR": {
+			String dni = padre.textDNI.getText();
+			EmpleadoBD.eliminarEmpleado(dni);
+			padre.textDNI.setText("");
+			MFichaEmpleado.calculaEstadoFicha(padre);
+			break;
+		}
+		
+		case "SALIR": {
+			padre.dispose();
+			break;
+		}
 		}
 	}
 
@@ -40,34 +80,9 @@ public class HandlerFichaEmpleado implements ActionListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		alternaDniInvalid();
+		MFichaEmpleado.alternaDniInvalid(padre);
+		MFichaEmpleado.calculaEstadoFicha(padre);
 	}
-	
-	public void alternaDniInvalid() {
-//		Comprueba si el DNI es valido
-		if (Metodos.ValidarDNI(padre.textDNI.getText())) {
-//		Si es asi apaga el indicador
-		padre.lblDniInvalid.setVisible(false);
-//			TODO comprueba si el dni ya existe
-			if (true) {
-				padre.btnCrear.setVisible(false);
-				padre.btnCrear.setEnabled(false);
-				padre.btnModificar.setVisible(true);
-				padre.btnModificar.setEnabled(true);
-				padre.btnBorrar.setVisible(true);
-				padre.btnBorrar.setEnabled(true);
-			} else {
-				padre.btnCrear.setVisible(true);
-				padre.btnCrear.setEnabled(true);
-				padre.btnModificar.setVisible(false);
-				padre.btnModificar.setEnabled(false);
-				padre.btnBorrar.setVisible(false);
-				padre.btnBorrar.setEnabled(false);
-			}
-		} else {
-//			Si no lo es enciende el indicador
-			padre.lblDniInvalid.setVisible(true);
-		}
-	}
+
 	
 }

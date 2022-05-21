@@ -1,6 +1,8 @@
 package metodos2;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 public class Metodos2 {
@@ -42,6 +44,27 @@ public class Metodos2 {
 			A.add(i);
 		}
 		return A;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static LocalDate DateToLocalDate(Date fecha){
+		LocalDate FechaF = LocalDate.of(fecha.getYear(), fecha.getMonth(), fecha.getDate()); 
+		return FechaF;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static Date LocalDateToDate(LocalDate fecha){
+		Date FechaF = new Date(fecha.getYear(), fecha.getMonthValue(), fecha.getDayOfMonth());
+		return FechaF;
+	}
+	@SuppressWarnings("deprecation")
+	public static java.sql.Date DateToSQLDate(Date fecha){
+		java.sql.Date FechaF = new java.sql.Date(fecha.getYear(), fecha.getMonth(), fecha.getDate());
+		return FechaF;
+	}
+	public static java.sql.Date LocalDateToSQLDate(LocalDate fechaBaja) {
+		Date FechaF = LocalDateToDate(fechaBaja);
+		return DateToSQLDate(FechaF);
 	}
 	
 	

@@ -1,54 +1,51 @@
-package gui.listados.listadoOficinas;
+package gui.listados;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import excepciones.ParámetroInálido;
+import gui.listados.handlers.Handler;
+import gui.listados.handlers.HandlerListadoOficinas;
 import metodos2.Metodos2;
 import repositorios.OficinaBD;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-
-import gui.fichas.fichasOficina.FichaOficina;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import java.awt.Rectangle;
-import javax.swing.ImageIcon;
-import java.awt.Dimension;
-
-public class ListadoOficinas extends JFrame {
+public class Listado extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public JPanel contentPane;
-	public JTable TablaOficinas;
+	public JTable Tabla;
 	public JTextField textFieldFiltro;
 	public JComboBox<String> comboBoxFiltro;
 	public JCheckBox chckbxFiltro;
 	public JButton btnReset;
 	@SuppressWarnings("rawtypes")
 	public Vector<Vector> data;
-	public ConfigListadoOficinas config;
+	public ConfigListado config;
 	public JButton btnAÑADIR;
 	public JButton btnMODIFICAR;
 	public JButton btnBORRAR;
 	public JButton btnSALIR;
-	private HandlerListadoOficinas handler;
+	private Handler handler;
 	private JPanel panelRefresco;
 	private JPanel panelFiltro;
 	private JButton btnRefresh;
@@ -57,11 +54,22 @@ public class ListadoOficinas extends JFrame {
 	 * Create the frame.
 	 */
 	@SuppressWarnings({ })
-	public ListadoOficinas(ConfigListadoOficinas confg) {
-		handler = new HandlerListadoOficinas(this);
+	public Listado(ConfigListado confg) {
 		this.config = confg;
-		setTitle("Listado de Oficinas");
-		String[] Nombres = {"CÓDIGO","DESCRIPCIÓN","LOCALIDAD","PROVINCIA","ESTÁ EN AEROPUERTO"};
+		String[] Nombres = null;
+		
+		switch (config.getTipo()){
+			case OFICINAS: {
+				handler =  new  HandlerListadoOficinas(this);
+				setTitle("Listado de Oficinas");
+				String[] nms = {"CÓDIGO","DESCRIPCIÓN","LOCALIDAD","PROVINCIA","ESTÁ EN AEROPUERTO"};
+				Nombres = nms.clone();
+				break;
+			}
+			case EMPLEADOS: {
+				break;
+			}
+		}
 		
 		setBounds(100, 155, 530, 327);
 		contentPane = new JPanel();
@@ -111,11 +119,11 @@ public class ListadoOficinas extends JFrame {
 			btnRefresh = new JButton();
 			btnRefresh.setActionCommand("Refresh");
 			btnRefresh.setPreferredSize(new Dimension(25, 25));
-			btnRefresh.setIcon(new ImageIcon(ListadoOficinas.class.getResource("/imgs/icons/refresh.png")));
+			btnRefresh.setIcon(new ImageIcon(Listado.class.getResource("/imgs/icons/refresh.png")));
 			panelFiltro.add(btnRefresh);
 			btnRefresh.addActionListener(handler);
 
-			MListadoOficina.CalculaEstadoFiltro(this);
+			MListado.CalculaEstadoFiltro(this);
 			comboBoxFiltro.addActionListener(handler);
 		}
 		
@@ -124,12 +132,12 @@ public class ListadoOficinas extends JFrame {
 			JScrollPane scrollPanel = new JScrollPane();
 			contentPane.add(scrollPanel, BorderLayout.CENTER);
 			
-			TablaOficinas = new JTable();
-			TablaOficinas.addFocusListener(handler);
-			TablaOficinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			TablaOficinas.addMouseListener(handler);
-			scrollPanel.setViewportView(TablaOficinas);
-			TablaOficinas.addKeyListener(handler);
+			Tabla = new JTable();
+			Tabla.addFocusListener(handler);
+			Tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			Tabla.addMouseListener(handler);
+			scrollPanel.setViewportView(Tabla);
+			Tabla.addKeyListener(handler);
 			
 			
 			
@@ -142,7 +150,7 @@ public class ListadoOficinas extends JFrame {
 				e.printStackTrace();
 			}
 			
-			MListadoOficina.ActualizaTabla(this, ColNames, data);
+			MListado.ActualizaTabla(this, ColNames, data);
 		}
 		
 		if (config.isbPanelInferior()) {
@@ -175,18 +183,18 @@ public class ListadoOficinas extends JFrame {
 	/**
 	 * 
 	 */
-	public static void LanzarListado() {
-		ListadoOficinas f = new ListadoOficinas(new ConfigListadoOficinas());
+	public static void LanzarListado(TipoList tipo) {
+		Listado f = new Listado(new ConfigListado(tipo));
 		f.setVisible(true);
 	}
 
 	/**
 	 * 
 	 */
-	public static void LanzarListadoBusqueda(FichaOficina padre) {
+	public static void LanzarListadoBusqueda(JFrame padre,TipoList tipo) {
 		//Creamos un ListadoOficinas sin panel inferior
-		ConfigListadoOficinas config = new ConfigListadoOficinas(true,true,false,padre);
-		ListadoOficinas f = new ListadoOficinas(config);
+		ConfigListado config = new ConfigListado(true,true,false,padre,tipo);
+		Listado f = new Listado(config);
 		//Lo convertimos a JDialog
 		JDialog frame = new JDialog(f, f.getTitle(), true);
 		frame.getContentPane().add(f.getContentPane());

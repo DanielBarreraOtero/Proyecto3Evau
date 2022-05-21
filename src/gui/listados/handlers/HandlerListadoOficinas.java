@@ -1,32 +1,30 @@
-package gui.listados.listadoOficinas;
+package gui.listados.handlers;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JTable;
 
 import excepciones.ParámetroInálido;
 import gui.fichas.fichasOficina.FichaOficina;
+import gui.listados.Listado;
+import gui.listados.MListado;
 import metodos2.Metodos2;
 import repositorios.OficinaBD;
 
-public class HandlerListadoOficinas implements ActionListener, MouseListener, KeyListener, FocusListener {
+public class HandlerListadoOficinas extends Handler {
 
-	private ListadoOficinas padre;
+	private Listado padre;
 	private String[] Nombres = {"CÓDIGO","DESCRIPCIÓN","LOCALIDAD","PROVINCIA","ESTÁ EN AEROPUERTO"};
 	@SuppressWarnings("unchecked")
 	private Vector<String> ColNames = (Vector<String>) Metodos2.ArtoVector(Nombres);
 	@SuppressWarnings("rawtypes")
 	private Vector<Vector> data;
 
-	public HandlerListadoOficinas(ListadoOficinas padre) {
+	public HandlerListadoOficinas(Listado padre) {
 		this.padre = padre;
 	}
 
@@ -70,7 +68,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 
 		switch (e.getActionCommand()) {
 		case "cmbbxfiltro": {
-			MListadoOficina.CalculaEstadoFiltro(padre);
+			MListado.CalculaEstadoFiltro(padre);
 			break;
 		}
 		case "chckbxFiltro": {
@@ -88,7 +86,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 					e1.printStackTrace();
 				}
 			}
-			MListadoOficina.ActualizaTabla(padre, ColNames, data);
+			MListado.ActualizaTabla(padre, ColNames, data);
 			break;
 		}
 		case "btnReset": {
@@ -99,9 +97,9 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 			}
 
 			padre.comboBoxFiltro.setSelectedIndex(-1);
-			MListadoOficina.CalculaEstadoFiltro(padre);
+			MListado.CalculaEstadoFiltro(padre);
 
-			MListadoOficina.ActualizaTabla(padre, ColNames, data);
+			MListado.ActualizaTabla(padre, ColNames, data);
 
 			break;
 		}
@@ -111,7 +109,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
-			MListadoOficina.ActualizaTabla(padre, ColNames, data);
+			MListado.ActualizaTabla(padre, ColNames, data);
 			break;
 		}
 		case "AÑADIR": {
@@ -125,7 +123,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 		}
 		case "BORRAR": {
 //			Obtenemos el codigo de la oficina seleccionada
-			JTable tabla = padre.TablaOficinas;
+			JTable tabla = padre.Tabla;
 			int row = tabla.getSelectedRow();
 			String valor = (String)tabla.getValueAt(row, 0);
 //			Eliminamos la oficina
@@ -136,7 +134,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
-			MListadoOficina.ActualizaTabla(padre, ColNames, data);
+			MListado.ActualizaTabla(padre, ColNames, data);
 //			Escondemos los botenes de borrar y modificar
 			padre.btnMODIFICAR.setVisible(false);
 			padre.btnBORRAR.setVisible(false);
@@ -174,7 +172,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListadoOficina.ActualizaTabla(padre, ColNames, data);
+				MListado.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			case "DESCRIPCIÓN": {
@@ -183,7 +181,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListadoOficina.ActualizaTabla(padre, ColNames, data);
+				MListado.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			case "LOCALIDAD": {
@@ -192,7 +190,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListadoOficina.ActualizaTabla(padre, ColNames, data);
+				MListado.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			case "PROVINCIA": {
@@ -201,7 +199,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListadoOficina.ActualizaTabla(padre, ColNames, data);
+				MListado.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			}
@@ -234,7 +232,7 @@ public class HandlerListadoOficinas implements ActionListener, MouseListener, Ke
 	}
 
 	private void SeleccionaOficina() {
-		JTable tabla = padre.TablaOficinas;
+		JTable tabla = padre.Tabla;
 		int row = tabla.getSelectedRow();
 		String valor = (String)tabla.getValueAt(row, 0);
 

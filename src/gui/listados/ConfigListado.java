@@ -1,14 +1,15 @@
-package gui.listados.listadoOficinas;
+package gui.listados;
 
 import javax.swing.JFrame;
 
 
-public class ConfigListadoOficinas {
+public class ConfigListado {
 	
 	private boolean bPanelHerramientas;
 	private boolean blistado;
 	private boolean bPanelInferior;
 	private JFrame FichaPadre;
+	private TipoList Tipo;
 	
 	public JFrame getFichaPadre() {
 		return FichaPadre;
@@ -34,24 +35,38 @@ public class ConfigListadoOficinas {
 	private void setbPanelInferior(boolean bPanelInferior) {
 		this.bPanelInferior = bPanelInferior;
 	}
+	public TipoList getTipo() {
+		return Tipo;
+	}
+	public void setTipo(TipoList tipo) {
+		Tipo = tipo;
+	}
 	
 	/**
 	 * 
 	 * @param bPanelHerramientas
 	 * @param blistado
 	 * @param bPanelInferior
+	 * @param fichaPadre
+	 * @param tipo
 	 */
-	public ConfigListadoOficinas(boolean bPanelHerramientas, boolean blistado, boolean bPanelInferior, JFrame fichaPadre) {
+	public ConfigListado(boolean bPanelHerramientas, boolean blistado, boolean bPanelInferior, JFrame fichaPadre, TipoList tipo) {
 		setbPanelHerramientas(bPanelHerramientas);
 		setBlistado(blistado);
 		setbPanelInferior(bPanelInferior);
 		setFichaPadre(fichaPadre);
+		setTipo(tipo);
 	}
-	
-	public ConfigListadoOficinas() {
+	/**
+	 * 
+	 * @param tipo
+	 */
+	public ConfigListado(TipoList tipo) {
 		setbPanelHerramientas(true);
 		setBlistado(true);
 		setbPanelInferior(true);
+		setTipo(tipo);
 	}
 	
 }
+

@@ -7,8 +7,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
-import gui.listados.listadoOficinas.ListadoOficinas;
+import gui.listados.Listado;
+import gui.listados.TipoList;
 import helpers.Helpers;
 import repositorios.OficinaBD;
 
@@ -52,13 +52,7 @@ public class HandlerFichaOficina implements ActionListener, MouseListener, KeyLi
 				break;
 			}
 			case "MODIFICAR": {
-				String codigo = padre.textCódigo.getText();
-				String descrp = padre.textAreaDescrp.getText();
-				String provincia = padre.textProvincia.getText();
-				String localidad = padre.textLocalidad.getText();
-				boolean esaeropuerto = padre.chckbxEsAeropuerto.isSelected();
-
-				OficinaBD.modificarOficina(codigo,descrp,provincia,localidad,esaeropuerto);
+				Helpers.ModificaOficina(padre);
 				MFichaOficina.calculaEstadoFicha(padre);
 				break;
 			}
@@ -74,7 +68,7 @@ public class HandlerFichaOficina implements ActionListener, MouseListener, KeyLi
 				break;
 			}
 			case "BUSQUEDA": {
-				ListadoOficinas.LanzarListadoBusqueda(padre);
+				Listado.LanzarListadoBusqueda(padre, TipoList.OFICINAS);
 				break;
 			}
 			

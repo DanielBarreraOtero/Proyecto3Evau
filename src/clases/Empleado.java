@@ -12,6 +12,7 @@ public class Empleado extends Persona{
 	private static final long serialVersionUID = 1L;
 	private LocalDate FechaAlta;
 	private Oficina OficinaActual;
+	private LocalDate FechaBaja;
 	
 // GETTERS Y SETTERS
 	
@@ -28,6 +29,12 @@ public class Empleado extends Persona{
 		Oficina c = new Oficina(oficinaActual);
 		OficinaActual = c;
 	}
+	public LocalDate getFechaBaja() {
+		return FechaBaja;
+	}
+	public void setFechaBaja(LocalDate fechaBaja) {
+		FechaBaja = fechaBaja;
+	}
 	
 //	CONSTRUCTORES
 	
@@ -40,11 +47,13 @@ public class Empleado extends Persona{
 	 * @param fechaNac
 	 * @param fechaalta
 	 * @param oficinaactual
+	 * @param fechaBaja
 	 */
-	public Empleado(String dNI, String nombre, String ap1, String ap2, LocalDate fechaNac, LocalDate fechaalta, Oficina oficinaactual) {
+	public Empleado(String dNI, String nombre, String ap1, String ap2, LocalDate fechaNac, LocalDate fechaalta, Oficina oficinaactual, LocalDate fechaBaja) {
 		super(dNI, nombre, ap1, ap2, fechaNac);
 		setFechaAlta(fechaalta);
 		setOficinaActual(oficinaactual);
+		setFechaBaja(fechaBaja);
 	}
 	/**Constructor sin ap2
 	 * 
@@ -79,6 +88,7 @@ public class Empleado extends Persona{
 		super(o.getDNI(), o.getNombre(), o.getAp1(), o.getAp2(), o.getFechaNac());
 		setFechaAlta(getFechaAlta());
 		setOficinaActual(getOficinaActual());
+		setFechaBaja(getFechaBaja());
 	}
 	/**Constructor comparacion.
 	 * 
