@@ -24,9 +24,15 @@ public class EmpleadoBD {
 		dni = dni.toUpperCase();
 		
 		try {
-			PreparedStatement st = cn.prepareStatement(sql);
-			st.setString(1, dni);
+			
+			PreparedStatement st = cn.prepareStatement("alter session set NLS_DATE_FORMAT='DD/MM/YYYY'");
+			
+			st.executeUpdate();
 
+			st = cn.prepareStatement(sql);
+			
+			st.setString(1, dni);
+			
 			ResultSet rs = st.executeQuery(); 
 
 			if (rs.next()) {
@@ -76,11 +82,11 @@ public class EmpleadoBD {
 //			Dependiendo del campo tendremos que añadirle un prefijo u otro
 			switch (Comparador) {
 				case "dni","nombre","ap1","ap2","fecha_nac": {
-					Comparador = "p."+Comparador;
+					Comparador = "P."+Comparador;
 					break;
 				}
 				case "fecha_alta","cod_oficina","fecha_baja": {
-					Comparador = "e."+Comparador;
+					Comparador = "E."+Comparador;
 					break;
 				}
 			}
@@ -90,33 +96,38 @@ public class EmpleadoBD {
 //				Dependiendo del campo tendremos que añadirle un prefijo u otro
 				switch (OrderBy) {
 					case "dni","nombre","ap1","ap2","fecha_nac": {
-						OrderBy = "p."+OrderBy;
+						OrderBy = "P."+OrderBy;
 						break;
 					}
 					case "fecha_alta","cod_oficina","fecha_baja": {
-						OrderBy = "e."+OrderBy;
+						OrderBy = "E."+OrderBy;
 						break;
 					}
 				}
 
 				if (Ascendente) {
 
-					sql = "SELECT P.*, E.* FROM persona P JOIN empleado E ON P.dni=E.dni_persona WHERE "+Comparador+" = ? ORDER BY "+OrderBy;
+					sql = "SELECT P.*, E.* FROM persona P JOIN empleado E ON P.dni=E.dni_persona WHERE "+Comparador+" like ? ORDER BY "+OrderBy;
 				} else {
-					sql = "SELECT P.*, E.* FROM persona P JOIN empleado E ON P.dni=E.dni_persona WHERE "+Comparador+" = ? ORDER BY "+OrderBy+" DESC";
+					sql = "SELECT P.*, E.* FROM persona P JOIN empleado E ON P.dni=E.dni_persona WHERE "+Comparador+" like ? ORDER BY "+OrderBy+" DESC";
 				}
 			} 
 			else{
-				sql = "SELECT P.*, E.* FROM persona P JOIN empleado E ON P.dni=E.dni_persona WHERE "+Comparador+" = ?";
+				sql = "SELECT P.*, E.* FROM persona P JOIN empleado E ON P.dni=E.dni_persona WHERE "+Comparador+" like ?";
+				
 			}
 
 			cn = Conexion.getConnOracle();
 
 			try {
-				PreparedStatement st = cn.prepareStatement(sql);
+				PreparedStatement st = cn.prepareStatement("alter session set NLS_DATE_FORMAT='DD/MM/YYYY'");
+				
+				st.executeUpdate();
 
+				st = cn.prepareStatement(sql);
+				
 				st.setString(1, "%"+Comparacion+"%");
-
+				
 				ResultSet rs = st.executeQuery(); 
 
 				while (rs.next()) {
@@ -151,7 +162,7 @@ public class EmpleadoBD {
 	}
 
 	public static Vector<Empleado> leerEmpleados() throws ParámetroInálido{
-		Vector<Empleado> os = leerEmpleados("1", "1", "codigo", true);
+		Vector<Empleado> os = leerEmpleados("1", "1", "dni", true);
 		return os;
 	}
 
@@ -285,7 +296,7 @@ public class EmpleadoBD {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Vector<Vector> GeneraVectorOfi(Vector<Empleado> emples){
+	public static Vector<Vector> GeneraVectorEmple(Vector<Empleado> emples){
 		Vector<Vector> Empleados = new Vector<Vector>(0,1);
 		for (int i = 0; i<emples.size(); i++) {
 			Empleados.add(new Vector<Object>(0,1)); //Crea un nuevo vector y le añade todos los valores del empleado correspondiente
@@ -293,10 +304,13 @@ public class EmpleadoBD {
 			Empleados.get(i).add(emples.get(i).getNombre());
 			Empleados.get(i).add(emples.get(i).getAp1());
 			Empleados.get(i).add(emples.get(i).getAp2());
-			Empleados.get(i).add(emples.get(i).getFechaNac());
-			Empleados.get(i).add(emples.get(i).getFechaAlta());
+			Empleados.get(i).add((Metodos2.LocalDateToString(emples.get(i).getFechaNac())));
 			Empleados.get(i).add(emples.get(i).getOficinaActual().getCodigo());
-			Empleados.get(i).add(emples.get(i).getFechaBaja());
+			Empleados.get(i).add(Metodos2.LocalDateToString(emples.get(i).getFechaAlta()));
+			if (emples.get(i).getFechaBaja() != null)
+				Empleados.get(i).add(Metodos2.LocalDateToString(emples.get(i).getFechaBaja()));
+			else
+				Empleados.get(i).add("(null)");
 		}
 
 		return Empleados;

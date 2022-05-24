@@ -5,9 +5,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import gui.listados.Listado;
+import gui.listados.TipoList;
 import helpers.Helpers;
 import repositorios.EmpleadoBD;
-import repositorios.OficinaBD;
 
 
 public class HandlerFichaEmpleado implements ActionListener, KeyListener{
@@ -24,8 +25,12 @@ public class HandlerFichaEmpleado implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-		case "a": {
-			
+		case "BUSQUEDAEMPLE": {
+			Listado.LanzarListadoBusqueda(padre, TipoList.EMPLEADOS);
+			break;
+		}
+		case "BUSQUEDAOFI": {
+			Listado.LanzarListadoBusqueda(padre, TipoList.OFICINAS);
 			break;
 		}
 		case "DESPEDIDO": {
@@ -34,23 +39,17 @@ public class HandlerFichaEmpleado implements ActionListener, KeyListener{
 		}
 		case "CREAR": {
 //			Comprobamos que los datos sean correctos
-			boolean condicion = OficinaBD.OficinaExiste(padre.textOficina.getText()) && padre.dtChFechNac.getDate() != null && padre.dtChFechAlt.getDate() != null;
-			if (condicion) {
+			if (MFichaEmpleado.compruebaEmpleado(padre)) {
 				Helpers.AñadirEmpleado(padre);
 				MFichaEmpleado.estadoBotones(padre);
-			} else {
-//				TODO JDIALOG CON ERROR
-			}	
+			} 
 			break;
 		}
 		case "MODIFICAR": {
 //			Comprobamos que los datos sean correctos
-			boolean condicion = OficinaBD.OficinaExiste(padre.textOficina.getText()) && padre.dtChFechNac.getDate() != null && padre.dtChFechAlt.getDate() != null;
-			if (condicion) {
+			if (MFichaEmpleado.compruebaEmpleado(padre)) {
 				Helpers.ModificaEmpelado(padre);
-			} else {
-//				TODO JDIALOG CON ERROR
-			}
+			} 
 			break;
 		}
 		case "BORRAR": {

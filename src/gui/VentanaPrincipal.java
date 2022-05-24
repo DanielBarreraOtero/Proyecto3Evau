@@ -31,6 +31,7 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
+		setTitle("Alquiler de vehiculos");
 		setBackground(Color.LIGHT_GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 681, 327);
@@ -58,13 +59,13 @@ public class VentanaPrincipal extends JFrame {
 		});
 		mnFichas.add(mntmFichaOficina);
 		
-		JMenuItem mntmEmpleados = new JMenuItem("Empleados");
-		mntmEmpleados.addActionListener(new ActionListener() {
+		JMenuItem mntmFichaEmpleados = new JMenuItem("Empleados");
+		mntmFichaEmpleados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FichaEmpleado.LanzarFicha();
 			}
 		});
-		mnFichas.add(mntmEmpleados);
+		mnFichas.add(mntmFichaEmpleados);
 		
 		JMenu mnListados = new JMenu("Listados");
 		mnListados.setBackground(Color.LIGHT_GRAY);
@@ -79,6 +80,14 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnListados.add(mntmListadoOficinas);
+		
+		JMenuItem mntmListadoEmpleados = new JMenuItem("Empleados");
+		mntmListadoEmpleados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Listado.LanzarListado(TipoList.EMPLEADOS);
+			}
+		});
+		mnListados.add(mntmListadoEmpleados);
 		
 		
 		

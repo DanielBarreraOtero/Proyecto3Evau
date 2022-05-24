@@ -9,9 +9,10 @@ import java.util.Vector;
 import javax.swing.JTable;
 
 import excepciones.ParámetroInálido;
+import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
 import gui.listados.Listado;
-import gui.listados.MListado;
+import gui.listados.metodosDeListados.MListadoOficinas;
 import metodos2.Metodos2;
 import repositorios.OficinaBD;
 
@@ -68,7 +69,7 @@ public class HandlerListadoOficinas extends Handler {
 
 		switch (e.getActionCommand()) {
 		case "cmbbxfiltro": {
-			MListado.CalculaEstadoFiltro(padre);
+			padre.metodos.CalculaEstadoFiltro(padre);
 			break;
 		}
 		case "chckbxFiltro": {
@@ -86,7 +87,7 @@ public class HandlerListadoOficinas extends Handler {
 					e1.printStackTrace();
 				}
 			}
-			MListado.ActualizaTabla(padre, ColNames, data);
+			padre.metodos.ActualizaTabla(padre, ColNames, data);
 			break;
 		}
 		case "btnReset": {
@@ -97,9 +98,9 @@ public class HandlerListadoOficinas extends Handler {
 			}
 
 			padre.comboBoxFiltro.setSelectedIndex(-1);
-			MListado.CalculaEstadoFiltro(padre);
+			padre.metodos.CalculaEstadoFiltro(padre);
 
-			MListado.ActualizaTabla(padre, ColNames, data);
+			padre.metodos.ActualizaTabla(padre, ColNames, data);
 
 			break;
 		}
@@ -109,7 +110,7 @@ public class HandlerListadoOficinas extends Handler {
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
-			MListado.ActualizaTabla(padre, ColNames, data);
+			padre.metodos.ActualizaTabla(padre, ColNames, data);
 			break;
 		}
 		case "AÑADIR": {
@@ -134,7 +135,7 @@ public class HandlerListadoOficinas extends Handler {
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
-			MListado.ActualizaTabla(padre, ColNames, data);
+			padre.metodos.ActualizaTabla(padre, ColNames, data);
 //			Escondemos los botenes de borrar y modificar
 			padre.btnMODIFICAR.setVisible(false);
 			padre.btnBORRAR.setVisible(false);
@@ -172,7 +173,7 @@ public class HandlerListadoOficinas extends Handler {
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListado.ActualizaTabla(padre, ColNames, data);
+				padre.metodos.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			case "DESCRIPCIÓN": {
@@ -181,7 +182,7 @@ public class HandlerListadoOficinas extends Handler {
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListado.ActualizaTabla(padre, ColNames, data);
+				padre.metodos.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			case "LOCALIDAD": {
@@ -190,7 +191,7 @@ public class HandlerListadoOficinas extends Handler {
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListado.ActualizaTabla(padre, ColNames, data);
+				padre.metodos.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			case "PROVINCIA": {
@@ -199,7 +200,7 @@ public class HandlerListadoOficinas extends Handler {
 				} catch (ParámetroInálido e1) {
 					e1.printStackTrace();
 				}
-				MListado.ActualizaTabla(padre, ColNames, data);
+				padre.metodos.ActualizaTabla(padre, ColNames, data);
 				break;
 			}
 			}
@@ -235,6 +236,7 @@ public class HandlerListadoOficinas extends Handler {
 		JTable tabla = padre.Tabla;
 		int row = tabla.getSelectedRow();
 		String valor = (String)tabla.getValueAt(row, 0);
+		
 
 		// Comprobamos si tenemos una ventana padre
 		// Si no tenemos abrimos la ficha de la oficina
@@ -245,6 +247,12 @@ public class HandlerListadoOficinas extends Handler {
 			String nombrePadre = padre.config.getFichaPadre().getClass().getName();
 			if (nombrePadre == "gui.fichas.fichasOficina.FichaOficina") {
 				((FichaOficina) padre.config.getFichaPadre()).RellenarDatos(valor);
+				padre.dispose();
+			}
+			else if (nombrePadre == "gui.fichas.fichasEmpleados.FichaEmpleado") {
+				
+				System.out.println(valor);
+				((FichaEmpleado) padre.config.getFichaPadre()).textOficina.setText(valor);
 				padre.dispose();
 			}
 			else {

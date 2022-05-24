@@ -1,13 +1,17 @@
-package gui.listados;
+package gui.listados.metodosDeListados;
 
 import java.util.Vector;
 
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class MListado {
+import gui.listados.Listado;
+
+public class MListadoOficinas extends MListados{
 	
 	
-	public static void CalculaEstadoFiltro(Listado padre)
+	public void CalculaEstadoFiltro(Listado padre)
 	{
 		if (padre.comboBoxFiltro.getSelectedIndex()==-1) {
 			padre.textFieldFiltro.setEnabled(false);
@@ -40,7 +44,7 @@ public class MListado {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "serial" })
-	public static DefaultTableModel GeneraModeloTabla(Listado padre, Vector<String> nombres, Vector<Vector> data) {
+	public DefaultTableModel GeneraModeloTabla(Listado padre, Vector<String> nombres, Vector<Vector> data) {
 		DefaultTableModel m = new DefaultTableModel(
 				data,
 				nombres
@@ -64,12 +68,16 @@ public class MListado {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static void ActualizaTabla(Listado padre, Vector<String> nombres, Vector<Vector> data) {
+	public void ActualizaTabla(Listado padre, Vector<String> nombres, Vector<Vector> data) {
 		padre.Tabla.setModel(GeneraModeloTabla(padre, nombres, data));
 		padre.Tabla.getColumnModel().getColumn(0).setPreferredWidth(65);
 		padre.Tabla.getColumnModel().getColumn(1).setPreferredWidth(115);
 		padre.Tabla.getColumnModel().getColumn(2).setPreferredWidth(75);
 		padre.Tabla.getColumnModel().getColumn(3).setPreferredWidth(75);
 		padre.Tabla.getColumnModel().getColumn(4).setPreferredWidth(140);
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		padre.Tabla.setDefaultRenderer(Object.class, centerRenderer);
 	}
 }

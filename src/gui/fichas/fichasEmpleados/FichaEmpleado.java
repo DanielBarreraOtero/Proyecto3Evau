@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import gui.fichas.fichasOficina.FichaOficina;
+import gui.fichas.fichasOficina.MFichaOficina;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -19,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FichaEmpleado extends JFrame {
 
@@ -50,6 +54,7 @@ public class FichaEmpleado extends JFrame {
 //		JFRAME
 		
 		handler = new HandlerFichaEmpleado(this);
+		setTitle("Ficha de Empleado");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 155, 569, 300);
 		contentPane = new JPanel();
@@ -89,6 +94,7 @@ public class FichaEmpleado extends JFrame {
 		btnBusquedaEmple.setIcon(new ImageIcon(FichaEmpleado.class.getResource("/imgs/icons/zoom.png")));
 		btnBusquedaEmple.setActionCommand("BUSQUEDAEMPLE");
 		btnBusquedaEmple.setBounds(217, 61, 24, 20);
+		btnBusquedaEmple.addActionListener(handler);
 		panelFicha.add(btnBusquedaEmple);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -133,6 +139,7 @@ public class FichaEmpleado extends JFrame {
 		textOficina.setColumns(10);
 		
 		btnBusquedaOfi = new JButton("");
+		btnBusquedaOfi.addActionListener(handler);
 		btnBusquedaOfi.setActionCommand("BUSQUEDAOFI");
 		btnBusquedaOfi.setIcon(new ImageIcon(FichaEmpleado.class.getResource("/imgs/icons/zoom.png")));
 		btnBusquedaOfi.setBounds(217, 114, 24, 19);
@@ -219,4 +226,17 @@ public class FichaEmpleado extends JFrame {
 		FichaEmpleado f = new FichaEmpleado();
 		f.setVisible(true);
 	}
+	
+	public static void LanzarFichaEmpleado(String dni) {
+		FichaEmpleado f = new FichaEmpleado();
+		f.setVisible(true);
+		f.textDNI.setText(dni);
+		MFichaEmpleado.calculaEstadoFicha(f);
+	}
+	
+	public void RellenarDatos(String dni){
+		this.textDNI.setText(dni);
+		MFichaEmpleado.calculaEstadoFicha(this);
+	}
+	
 }

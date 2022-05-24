@@ -20,11 +20,20 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import com.toedter.calendar.JDateChooser;
+
 import excepciones.ParámetroInálido;
 import gui.listados.handlers.Handler;
+import gui.listados.handlers.HandlerListadoEmpleados;
 import gui.listados.handlers.HandlerListadoOficinas;
+import gui.listados.metodosDeListados.MListadoEmpleados;
+import gui.listados.metodosDeListados.MListadoOficinas;
+import gui.listados.metodosDeListados.MListados;
 import metodos2.Metodos2;
+import repositorios.EmpleadoBD;
 import repositorios.OficinaBD;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Listado extends JFrame {
 
@@ -37,6 +46,8 @@ public class Listado extends JFrame {
 	public JTextField textFieldFiltro;
 	public JComboBox<String> comboBoxFiltro;
 	public JCheckBox chckbxFiltro;
+	public JDateChooser dtChFechFiltro;
+	public JButton btnBusqueda;
 	public JButton btnReset;
 	@SuppressWarnings("rawtypes")
 	public Vector<Vector> data;
@@ -46,6 +57,7 @@ public class Listado extends JFrame {
 	public JButton btnBORRAR;
 	public JButton btnSALIR;
 	private Handler handler;
+	public MListados metodos;
 	private JPanel panelRefresco;
 	private JPanel panelFiltro;
 	private JButton btnRefresh;
@@ -61,17 +73,27 @@ public class Listado extends JFrame {
 		switch (config.getTipo()){
 			case OFICINAS: {
 				handler =  new  HandlerListadoOficinas(this);
+				metodos = new MListadoOficinas();
 				setTitle("Listado de Oficinas");
 				String[] nms = {"CÓDIGO","DESCRIPCIÓN","LOCALIDAD","PROVINCIA","ESTÁ EN AEROPUERTO"};
 				Nombres = nms.clone();
+				setBounds(100, 155, 530, 327);
 				break;
 			}
 			case EMPLEADOS: {
+				handler =  new  HandlerListadoEmpleados(this);
+				metodos = new MListadoEmpleados();
+				setTitle("Listado de Empleados");
+				String[] nms = {"DNI","NOMBRE","APELLIDO 1","APELLIDO 2","FECHA NAC","OFICINA","FECHA ALTA","FECHA BAJA"};
+				Nombres = nms.clone();
+				setBounds(100, 155, 755, 327);
 				break;
 			}
 		}
 		
-		setBounds(100, 155, 530, 327);
+		
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -106,6 +128,20 @@ public class Listado extends JFrame {
 			chckbxFiltro.setActionCommand("chckbxFiltro");
 			panelRefresco.add(chckbxFiltro);
 
+			dtChFechFiltro = new JDateChooser("dd/MM/yyyy","##/##/####",'-');
+			dtChFechFiltro.setPreferredSize(new Dimension(107, 20));
+			dtChFechFiltro.getJCalendar().setTodayButtonText("Hoy");
+			dtChFechFiltro.getJCalendar().setTodayButtonVisible(true);
+			dtChFechFiltro.getJCalendar().setWeekOfYearVisible(false);
+			panelRefresco.add(dtChFechFiltro);
+			
+			btnBusqueda = new JButton("");
+			btnBusqueda.setPreferredSize(new Dimension(21, 21));
+			btnBusqueda.addActionListener(handler);
+			btnBusqueda.setIcon(new ImageIcon(Listado.class.getResource("/imgs/icons/zoom.png")));
+			btnBusqueda.setActionCommand("BUSQUEDA");
+			panelRefresco.add(btnBusqueda);
+
 			btnReset = new JButton("X");
 			btnReset.addActionListener(handler);
 			btnReset.setActionCommand("btnReset");
@@ -123,7 +159,7 @@ public class Listado extends JFrame {
 			panelFiltro.add(btnRefresh);
 			btnRefresh.addActionListener(handler);
 
-			MListado.CalculaEstadoFiltro(this);
+			metodos.CalculaEstadoFiltro(this);
 			comboBoxFiltro.addActionListener(handler);
 		}
 		
@@ -145,12 +181,15 @@ public class Listado extends JFrame {
 			Vector<String> ColNames = (Vector<String>) Metodos2.ArtoVector(Nombres);
 
 			try {
-				data = OficinaBD.GeneraVectorOfi(OficinaBD.leerOficinas());
+				if (config.getTipo() == TipoList.OFICINAS)
+					data = OficinaBD.GeneraVectorOfi(OficinaBD.leerOficinas());
+				else if (config.getTipo() == TipoList.EMPLEADOS)
+					data = EmpleadoBD.GeneraVectorEmple(EmpleadoBD.leerEmpleados());
 			} catch (ParámetroInálido e) {
 				e.printStackTrace();
 			}
 			
-			MListado.ActualizaTabla(this, ColNames, data);
+			metodos.ActualizaTabla(this, ColNames, data);
 		}
 		
 		if (config.isbPanelInferior()) {
@@ -182,6 +221,7 @@ public class Listado extends JFrame {
 
 	/**
 	 * 
+	 * @param tipo
 	 */
 	public static void LanzarListado(TipoList tipo) {
 		Listado f = new Listado(new ConfigListado(tipo));
@@ -190,6 +230,8 @@ public class Listado extends JFrame {
 
 	/**
 	 * 
+	 * @param padre
+	 * @param tipo
 	 */
 	public static void LanzarListadoBusqueda(JFrame padre,TipoList tipo) {
 		//Creamos un ListadoOficinas sin panel inferior

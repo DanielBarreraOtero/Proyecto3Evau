@@ -1,9 +1,12 @@
 package gui.fichas.fichasEmpleados;
 
+import javax.swing.JOptionPane;
+
 import clases.Empleado;
 import metodos.Metodos;
 import metodos2.Metodos2;
 import repositorios.EmpleadoBD;
+import repositorios.OficinaBD;
 
 public class MFichaEmpleado {
 	
@@ -120,5 +123,32 @@ public class MFichaEmpleado {
 			deshabilitaFicha(padre);
 		}
 		estadoBotones(padre);
+	}
+	
+	public static boolean compruebaEmpleado(FichaEmpleado padre) {
+		boolean valido = true;
+		
+		if (!OficinaBD.OficinaExiste(padre.textOficina.getText())) {
+			valido = false;
+			JOptionPane.showMessageDialog(padre,"La oficina indicada no existe.","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		else if (padre.dtChFechNac.getDate() == null) {
+			valido = false;
+			JOptionPane.showMessageDialog(padre,"Tiene que indicar una Fecha de Nacimiento.","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		else if (padre.dtChFechAlt.getDate() == null) {
+			valido = false;
+			JOptionPane.showMessageDialog(padre,"Tiene que indicar una Fecha de Alta.","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		else if (padre.textNombre.getText() == null) {
+			valido = false;
+			JOptionPane.showMessageDialog(padre,"Tiene que indicar un Nombre.","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		else if (padre.textAP1.getText() == null) {
+			valido = false;
+			JOptionPane.showMessageDialog(padre,"Tiene que indicar un Primer Apellido.","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return valido;
 	}
 }

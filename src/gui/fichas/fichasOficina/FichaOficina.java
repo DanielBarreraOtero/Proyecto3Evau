@@ -35,6 +35,7 @@ public class FichaOficina extends JFrame {
 //		JFRAME
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setTitle("Ficha de Oficina");
 		setBounds(100, 155, 689, 278);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
