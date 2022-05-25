@@ -52,11 +52,11 @@ public class FichaOficina extends JFrame {
 		getContentPane().add(panelFicha, BorderLayout.CENTER);
 		panelFicha.setLayout(null);
 
-		JLabel lblTitutlo = new JLabel("GESTI\u00D3N DE OFICINAS");
-		lblTitutlo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitutlo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTitutlo.setBounds(225, 11, 213, 42);
-		panelFicha.add(lblTitutlo);
+		JLabel lblTitulo = new JLabel("GESTI\u00D3N DE OFICINAS");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTitulo.setBounds(225, 11, 213, 42);
+		panelFicha.add(lblTitulo);
 
 		JLabel lblCodigo = new JLabel("C\u00F3digo:");
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));

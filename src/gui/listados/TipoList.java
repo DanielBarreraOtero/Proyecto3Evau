@@ -1,5 +1,7 @@
 package gui.listados;
 
 public enum TipoList {
-	OFICINAS, EMPLEADOS
+	OFICINAS, 
+	EMPLEADOS,
+	CATEGORIAS
 }

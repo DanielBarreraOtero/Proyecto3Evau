@@ -11,11 +11,9 @@ import javax.swing.JTable;
 
 import excepciones.ParámetroInálido;
 import gui.fichas.fichasEmpleados.FichaEmpleado;
-import gui.fichas.fichasOficina.FichaOficina;
 import gui.listados.Listado;
 import metodos2.Metodos2;
 import repositorios.EmpleadoBD;
-import repositorios.OficinaBD;
 
 public class HandlerListadoEmpleados extends Handler{
 	
@@ -134,43 +132,38 @@ public class HandlerListadoEmpleados extends Handler{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		switch (e.getSource().getClass().getName()){
-		case "javax.swing.JTable": {
-			if (e.getClickCount()>1) 
-			{
-				SeleccionaEmpleado();
+			case "javax.swing.JTable": {
+				if (e.getClickCount()>1) 
+				{
+					SeleccionaEmpleado();
+				}
+				break;
 			}
-			break;
-		}
 		}		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -184,7 +177,6 @@ public class HandlerListadoEmpleados extends Handler{
 				}
 				break;
 			}
-//			{"DNI","NOMBRE","APELLIDO 1","APELLIDO 2","FECHA NAC","OFICINA","FECHA ALTA","FECHA BAJA"};
 			case "javax.swing.JTextField": {
 				switch (padre.comboBoxFiltro.getSelectedItem().toString()) {
 				case "DNI": {
@@ -240,7 +232,6 @@ public class HandlerListadoEmpleados extends Handler{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -12,7 +12,6 @@ import excepciones.ParámetroInálido;
 import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
 import gui.listados.Listado;
-import gui.listados.metodosDeListados.MListadoOficinas;
 import metodos2.Metodos2;
 import repositorios.OficinaBD;
 

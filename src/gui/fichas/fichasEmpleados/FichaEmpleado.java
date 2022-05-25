@@ -10,8 +10,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
 
-import gui.fichas.fichasOficina.FichaOficina;
-import gui.fichas.fichasOficina.MFichaOficina;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -21,8 +19,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class FichaEmpleado extends JFrame {
 

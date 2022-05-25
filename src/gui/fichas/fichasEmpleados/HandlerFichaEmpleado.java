@@ -25,45 +25,45 @@ public class HandlerFichaEmpleado implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-		case "BUSQUEDAEMPLE": {
-			Listado.LanzarListadoBusqueda(padre, TipoList.EMPLEADOS);
-			break;
-		}
-		case "BUSQUEDAOFI": {
-			Listado.LanzarListadoBusqueda(padre, TipoList.OFICINAS);
-			break;
-		}
-		case "DESPEDIDO": {
-			MFichaEmpleado.estadoFechaBaj(padre);
-			break;
-		}
-		case "CREAR": {
-//			Comprobamos que los datos sean correctos
-			if (MFichaEmpleado.compruebaEmpleado(padre)) {
-				Helpers.AñadirEmpleado(padre);
-				MFichaEmpleado.estadoBotones(padre);
-			} 
-			break;
-		}
-		case "MODIFICAR": {
-//			Comprobamos que los datos sean correctos
-			if (MFichaEmpleado.compruebaEmpleado(padre)) {
-				Helpers.ModificaEmpelado(padre);
-			} 
-			break;
-		}
-		case "BORRAR": {
-			String dni = padre.textDNI.getText();
-			EmpleadoBD.eliminarEmpleado(dni);
-			padre.textDNI.setText("");
-			MFichaEmpleado.calculaEstadoFicha(padre);
-			break;
-		}
-		
-		case "SALIR": {
-			padre.dispose();
-			break;
-		}
+			case "BUSQUEDAEMPLE": {
+				Listado.LanzarListadoBusqueda(padre, TipoList.EMPLEADOS);
+				break;
+			}
+			case "BUSQUEDAOFI": {
+				Listado.LanzarListadoBusqueda(padre, TipoList.OFICINAS);
+				break;
+			}
+			case "DESPEDIDO": {
+				MFichaEmpleado.estadoFechaBaj(padre);
+				break;
+			}
+			case "CREAR": {
+	//			Comprobamos que los datos sean correctos
+				if (MFichaEmpleado.compruebaEmpleado(padre)) {
+					Helpers.AñadirEmpleado(padre);
+					MFichaEmpleado.estadoBotones(padre);
+				} 
+				break;
+			}
+			case "MODIFICAR": {
+	//			Comprobamos que los datos sean correctos
+				if (MFichaEmpleado.compruebaEmpleado(padre)) {
+					Helpers.ModificaEmpelado(padre);
+				} 
+				break;
+			}
+			case "BORRAR": {
+				String dni = padre.textDNI.getText();
+				EmpleadoBD.eliminarEmpleado(dni);
+				padre.textDNI.setText("");
+				MFichaEmpleado.calculaEstadoFicha(padre);
+				break;
+			}
+			
+			case "SALIR": {
+				padre.dispose();
+				break;
+			}
 		}
 	}
 

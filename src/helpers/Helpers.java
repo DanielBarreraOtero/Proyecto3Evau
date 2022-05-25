@@ -1,13 +1,16 @@
 package helpers;
 
+import repositorios.CategoriaBD;
 import repositorios.EmpleadoBD;
 import repositorios.OficinaBD;
 
 import java.time.LocalDate;
 import java.util.Date;
 
+import clases.Categoria;
 import clases.Empleado;
 import clases.Oficina;
+import gui.fichas.fichasCategoria.FichaCategoria;
 import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
 import metodos2.Metodos2;
@@ -84,5 +87,27 @@ public class Helpers {
 		EmpleadoBD.modificarEmpleado(dni, nombre, ap1, ap2, fechaNac, fechaAlt, codOfi, fechaBaj);
 	}
 	
+	public static void AñadirCategoria(FichaCategoria padre) {
+		String codigo = padre.textCodigo.getText().toUpperCase();
+		String descrp = padre.textAreaDescrp.getText();
+		double recargo = Double.parseDouble(padre.textRecargo.getText());
+		
+		Categoria c = new Categoria(codigo, descrp, recargo);
+		CategoriaBD.grabaCategoria(c);
+	}
 	
+	public static void ModificaCategoria(FichaCategoria padre) {
+		String codigo = padre.textCodigo.getText();
+		String descrp = padre.textAreaDescrp.getText();
+		
+		
+		double recargo = 0;
+		try {
+			recargo = Double.parseDouble(padre.textRecargo.getText());
+			CategoriaBD.modificarCategoria(codigo, descrp, recargo);
+		} catch (Exception e) {
+		}
+		
+		
+	}
 }

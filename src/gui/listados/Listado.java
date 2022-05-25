@@ -24,16 +24,17 @@ import com.toedter.calendar.JDateChooser;
 
 import excepciones.ParámetroInálido;
 import gui.listados.handlers.Handler;
+import gui.listados.handlers.HandlerListadoCategorias;
 import gui.listados.handlers.HandlerListadoEmpleados;
 import gui.listados.handlers.HandlerListadoOficinas;
+import gui.listados.metodosDeListados.MListadoCategorias;
 import gui.listados.metodosDeListados.MListadoEmpleados;
 import gui.listados.metodosDeListados.MListadoOficinas;
 import gui.listados.metodosDeListados.MListados;
 import metodos2.Metodos2;
+import repositorios.CategoriaBD;
 import repositorios.EmpleadoBD;
 import repositorios.OficinaBD;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Listado extends JFrame {
 
@@ -89,6 +90,15 @@ public class Listado extends JFrame {
 				setBounds(100, 155, 755, 327);
 				break;
 			}
+			case CATEGORIAS: {
+				handler =  new  HandlerListadoCategorias(this);
+				metodos = new MListadoCategorias();
+				setTitle("Listado de Categorías");
+				String[] nms = {"CODIGO","DESCRIPCIÓN","RECARGO"};
+				Nombres = nms.clone();
+				setBounds(100, 155, 400, 327);
+				break;
+			}
 		}
 		
 		
@@ -120,6 +130,7 @@ public class Listado extends JFrame {
 			textFieldFiltro = new JTextField();
 			textFieldFiltro.addKeyListener(handler);
 			textFieldFiltro.setActionCommand("textFieldFiltro");
+			textFieldFiltro.setName("textFieldFiltro");
 			panelRefresco.add(textFieldFiltro);
 			textFieldFiltro.setColumns(10);
 
@@ -185,6 +196,8 @@ public class Listado extends JFrame {
 					data = OficinaBD.GeneraVectorOfi(OficinaBD.leerOficinas());
 				else if (config.getTipo() == TipoList.EMPLEADOS)
 					data = EmpleadoBD.GeneraVectorEmple(EmpleadoBD.leerEmpleados());
+				else if (config.getTipo() == TipoList.CATEGORIAS)
+					data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias());
 			} catch (ParámetroInálido e) {
 				e.printStackTrace();
 			}

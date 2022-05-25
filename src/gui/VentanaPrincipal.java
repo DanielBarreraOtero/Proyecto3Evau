@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import gui.fichas.fichasCategoria.FichaCategoria;
 import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
 import gui.listados.Listado;
@@ -67,6 +68,14 @@ public class VentanaPrincipal extends JFrame {
 		});
 		mnFichas.add(mntmFichaEmpleados);
 		
+		JMenuItem mntmFichaCategoria = new JMenuItem("Categor\u00EDas");
+		mntmFichaCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FichaCategoria.LanzarFicha();
+			}
+		});
+		mnFichas.add(mntmFichaCategoria);
+		
 		JMenu mnListados = new JMenu("Listados");
 		mnListados.setBackground(Color.LIGHT_GRAY);
 		menuBar.add(mnListados);
@@ -88,6 +97,14 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnListados.add(mntmListadoEmpleados);
+		
+		JMenuItem mntmListadoCategorias = new JMenuItem("Categorias");
+		mntmListadoCategorias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Listado.LanzarListado(TipoList.CATEGORIAS);
+			}
+		});
+		mnListados.add(mntmListadoCategorias);
 		
 		
 		

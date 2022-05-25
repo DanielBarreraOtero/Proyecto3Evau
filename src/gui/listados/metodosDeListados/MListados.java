@@ -10,7 +10,7 @@ public abstract class MListados {
 	
 	public abstract void CalculaEstadoFiltro(Listado padre);
 	
-	@SuppressWarnings({ "rawtypes", "serial" })
+	@SuppressWarnings({ "rawtypes" })
 	public abstract DefaultTableModel GeneraModeloTabla(Listado padre, Vector<String> nombres, Vector<Vector> data) ;
 	
 	@SuppressWarnings("rawtypes")

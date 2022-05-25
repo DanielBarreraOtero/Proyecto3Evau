@@ -1,6 +1,5 @@
 package metodos2;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,6 +77,7 @@ public class Metodos2 {
 		return Fecha;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static String DateToString(Date fecha) {
 //		le sumammos 1900 a los años, porque date trata los años desde el 1900
 //		ejmp: el año 2000, seria 100, para mostrarlo correctamente tenemos que sumarle 1900
