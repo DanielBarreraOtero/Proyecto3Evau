@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import gui.fichas.fichasCarnets.FichaCarnets;
 import gui.fichas.fichasCategoria.FichaCategoria;
 import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
@@ -52,7 +53,7 @@ public class VentanaPrincipal extends JFrame {
 		menuBar.add(mnFichas);
 		
 		JMenuItem mntmFichaOficina = new JMenuItem("Oficinas");
-		mntmFichaOficina.setHorizontalAlignment(SwingConstants.TRAILING);
+		mntmFichaOficina.setHorizontalAlignment(SwingConstants.LEFT);
 		mntmFichaOficina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FichaOficina.LanzarFicha();
@@ -75,6 +76,14 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnFichas.add(mntmFichaCategoria);
+		
+		JMenuItem mntmFichaCarnets = new JMenuItem("Carnets de Conducir");
+		mntmFichaCarnets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FichaCarnets.LanzarFicha();
+			}
+		});
+		mnFichas.add(mntmFichaCarnets);
 		
 		JMenu mnListados = new JMenu("Listados");
 		mnListados.setBackground(Color.LIGHT_GRAY);
@@ -105,6 +114,14 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnListados.add(mntmListadoCategorias);
+		
+		JMenuItem mntmListadoCarnets = new JMenuItem("Carnets de Conducir");
+		mntmListadoCarnets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Listado.LanzarListado(TipoList.CARNETS);
+			}
+		});
+		mnListados.add(mntmListadoCarnets);
 		
 		
 		

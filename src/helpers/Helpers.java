@@ -1,5 +1,6 @@
 package helpers;
 
+import repositorios.CarnetsBD;
 import repositorios.CategoriaBD;
 import repositorios.EmpleadoBD;
 import repositorios.OficinaBD;
@@ -7,9 +8,11 @@ import repositorios.OficinaBD;
 import java.time.LocalDate;
 import java.util.Date;
 
+import clases.CarnetConducir;
 import clases.Categoria;
 import clases.Empleado;
 import clases.Oficina;
+import gui.fichas.fichasCarnets.FichaCarnets;
 import gui.fichas.fichasCategoria.FichaCategoria;
 import gui.fichas.fichasEmpleados.FichaEmpleado;
 import gui.fichas.fichasOficina.FichaOficina;
@@ -108,6 +111,24 @@ public class Helpers {
 		} catch (Exception e) {
 		}
 		
+	}
+	
+	public static void AñadirCarnet(FichaCarnets padre) {
+		String codigo = padre.textCodigo.getText().toUpperCase();
+		String descrp = padre.textAreaDescrp.getText();
+		
+		CarnetConducir c = new CarnetConducir(codigo, descrp);
+		CarnetsBD.grabaCarnet(c);
+	}
+	
+	public static void ModificaCarnet(FichaCarnets padre) {
+		String codigo = padre.textCodigo.getText();
+		String descrp = padre.textAreaDescrp.getText();
+		
+		try {
+			CarnetsBD.modificarCarnet(codigo, descrp);
+		} catch (Exception e) {
+		}
 		
 	}
 }

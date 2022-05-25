@@ -24,14 +24,17 @@ import com.toedter.calendar.JDateChooser;
 
 import excepciones.ParámetroInálido;
 import gui.listados.handlers.Handler;
+import gui.listados.handlers.HandlerListadoCarnets;
 import gui.listados.handlers.HandlerListadoCategorias;
 import gui.listados.handlers.HandlerListadoEmpleados;
 import gui.listados.handlers.HandlerListadoOficinas;
+import gui.listados.metodosDeListados.MListadoCarnets;
 import gui.listados.metodosDeListados.MListadoCategorias;
 import gui.listados.metodosDeListados.MListadoEmpleados;
 import gui.listados.metodosDeListados.MListadoOficinas;
 import gui.listados.metodosDeListados.MListados;
 import metodos2.Metodos2;
+import repositorios.CarnetsBD;
 import repositorios.CategoriaBD;
 import repositorios.EmpleadoBD;
 import repositorios.OficinaBD;
@@ -95,6 +98,15 @@ public class Listado extends JFrame {
 				metodos = new MListadoCategorias();
 				setTitle("Listado de Categorías");
 				String[] nms = {"CODIGO","DESCRIPCIÓN","RECARGO"};
+				Nombres = nms.clone();
+				setBounds(100, 155, 400, 327);
+				break;
+			}
+			case CARNETS: {
+				handler =  new HandlerListadoCarnets(this);
+				metodos = new MListadoCarnets();
+				setTitle("Listado de Carnets");
+				String[] nms = {"CODIGO","DESCRIPCIÓN"};
 				Nombres = nms.clone();
 				setBounds(100, 155, 400, 327);
 				break;
@@ -198,6 +210,8 @@ public class Listado extends JFrame {
 					data = EmpleadoBD.GeneraVectorEmple(EmpleadoBD.leerEmpleados());
 				else if (config.getTipo() == TipoList.CATEGORIAS)
 					data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias());
+				else if (config.getTipo() == TipoList.CARNETS)
+					data = CarnetsBD.GeneraVectorcarnet(CarnetsBD.leerCarnets());
 			} catch (ParámetroInálido e) {
 				e.printStackTrace();
 			}

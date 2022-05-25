@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 
 import clases.Categoria;
-import clases.Oficina;
 import excepciones.ParámetroInálido;
 import gbd.Conexion;
 

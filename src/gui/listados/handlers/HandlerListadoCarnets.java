@@ -6,25 +6,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import excepciones.ParámetroInálido;
-import gui.fichas.fichasCategoria.FichaCategoria;
+import gui.fichas.fichasCarnets.FichaCarnets;
 import gui.listados.Listado;
 import metodos2.Metodos2;
-import repositorios.CategoriaBD;
+import repositorios.CarnetsBD;
 
-public class HandlerListadoCategorias extends Handler {
+public class HandlerListadoCarnets extends Handler {
 
 	private Listado padre;
-	private String[] Nombres = {"CODIGO","DESCRIPCIÓN","RECARGO"};
+	private String[] Nombres = {"CODIGO","DESCRIPCIÓN"};
 	@SuppressWarnings("unchecked")
 	private Vector<String> ColNames = (Vector<String>) Metodos2.ArtoVector(Nombres);
 	@SuppressWarnings("rawtypes")
 	private Vector<Vector> data;
 	
-	public HandlerListadoCategorias(Listado padre) {
+
+	public HandlerListadoCarnets(Listado padre) {
 		this.padre=padre;
 	}
 	
@@ -37,7 +37,7 @@ public class HandlerListadoCategorias extends Handler {
 		}
 		case "btnReset": {
 			try {
-				data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias());
+				data = CarnetsBD.GeneraVectorcarnet(CarnetsBD.leerCarnets());
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
@@ -51,7 +51,7 @@ public class HandlerListadoCategorias extends Handler {
 		}
 		case "Refresh": {
 			try {
-				data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias());
+				data = CarnetsBD.GeneraVectorcarnet(CarnetsBD.leerCarnets());
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
@@ -59,23 +59,24 @@ public class HandlerListadoCategorias extends Handler {
 			break;
 		}
 		case "AÑADIR": {
-			FichaCategoria.LanzarFicha();
+			FichaCarnets.LanzarFicha();
 			break;
 		}
+
 		case "MODIFICAR": {
-			SeleccionaCategoria();	
+			SeleccionaCarnet();	
 			break;
 		}
 		case "BORRAR": {
-//			Obtenemos el codigo de la categoria seleccionada
+//			Obtenemos el dni del empleado seleccionado
 			JTable tabla = padre.Tabla;
 			int row = tabla.getSelectedRow();
 			String valor = (String)tabla.getValueAt(row, 0);
-//			Eliminamos la categoria
-			CategoriaBD.eliminarCategoria(valor);
+//			Eliminamos el empleado
+			CarnetsBD.eliminarCarnet(valor);
 //			Actualizamos la tabla
 			try {
-				data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias());
+				data = CarnetsBD.GeneraVectorcarnet(CarnetsBD.leerCarnets());
 			} catch (ParámetroInálido e1) {
 				e1.printStackTrace();
 			}
@@ -95,49 +96,39 @@ public class HandlerListadoCategorias extends Handler {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		switch (e.getSource().getClass().getName()){
-			case "javax.swing.JTable": {
-				if (e.getClickCount()>1) 
-				{
-					SeleccionaCategoria();
-				}
-				break;
+		case "javax.swing.JTable": {
+			if (e.getClickCount()>1) 
+			{
+				SeleccionaCarnet();
 			}
+			break;
 		}
+	}	
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if (e.getComponent().getName().equals("textFieldFiltro") && padre.comboBoxFiltro.getSelectedItem().toString().equals("RECARGO"))
-		{
-			char c = e.getKeyChar();
-			if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_PERIOD)) {
-				e.consume();
-			}
-		}
+
 	}
 
 	@Override
@@ -146,7 +137,7 @@ public class HandlerListadoCategorias extends Handler {
 			case "javax.swing.JTable": {
 				if (e.getKeyCode() == 10) 
 				{
-					SeleccionaCategoria();	
+					SeleccionaCarnet();	
 				}
 				break;
 			}
@@ -154,7 +145,7 @@ public class HandlerListadoCategorias extends Handler {
 				switch (padre.comboBoxFiltro.getSelectedItem().toString()) {
 					case "CODIGO": {
 						try {
-							data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias("codigo", padre.textFieldFiltro.getText()));
+							data = CarnetsBD.GeneraVectorcarnet(CarnetsBD.leerCarnets("codigo", padre.textFieldFiltro.getText()));
 						} catch (ParámetroInálido e1) {
 							e1.printStackTrace();
 						}
@@ -163,7 +154,7 @@ public class HandlerListadoCategorias extends Handler {
 					}
 					case "DESCRIPCIÓN": {
 						try {
-							data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias("descrp", padre.textFieldFiltro.getText()));
+							data = CarnetsBD.GeneraVectorcarnet(CarnetsBD.leerCarnets("descrp", padre.textFieldFiltro.getText()));
 						} catch (ParámetroInálido e1) {
 							e1.printStackTrace();
 						}
@@ -175,22 +166,9 @@ public class HandlerListadoCategorias extends Handler {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getComponent().getName().equals("textFieldFiltro") && padre.comboBoxFiltro.getSelectedItem().toString().equals("RECARGO"))
-		{
-			char c = e.getKeyChar();
-			if (!((c < '0') || (c > '9')) || !(c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_PERIOD)) {
-				try {
-					double recargo = Double.parseDouble(padre.textFieldFiltro.getText());
-					data = CategoriaBD.GeneraVectorCate(CategoriaBD.leerCategorias("recargo", padre.textFieldFiltro.getText()));
-				} catch (Exception e1) {
-					JOptionPane.showInternalMessageDialog(null, e1, "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				padre.metodos.ActualizaTabla(padre, ColNames, data);
-			}
-		}
+
 	}
 
 	@Override
@@ -211,21 +189,20 @@ public class HandlerListadoCategorias extends Handler {
 		}
 	}
 
-	private void SeleccionaCategoria() {
+	private void SeleccionaCarnet() {
 		JTable tabla = padre.Tabla;
 		int row = tabla.getSelectedRow();
 		String valor = (String)tabla.getValueAt(row, 0);
 
 		// Comprobamos si tenemos una ventana padre
-		// Si no tenemos abrimos la ficha de la categoria
+		// Si no tenemos abrimos la ficha del Carnet
 		if(padre.config.getFichaPadre() == null)
-			FichaCategoria.LanzarFichaCategoria(valor);
+			FichaCarnets.LanzarFichaCarnet(valor);
 		// Si tenemos, rellenamos padre con los datos seleccionados
 		else {
-//			TODO CAMBIAR
 			String nombrePadre = padre.config.getFichaPadre().getClass().getName();
-			if (nombrePadre == "gui.fichas.fichasCategoria.FichaCategoria") {
-				((FichaCategoria) padre.config.getFichaPadre()).RellenarDatos(valor);
+			if (nombrePadre == "gui.fichas.fichasCarnets.FichaCarnets") {
+				((FichaCarnets) padre.config.getFichaPadre()).RellenarDatos(valor);
 				padre.dispose();
 			}
 			else {
